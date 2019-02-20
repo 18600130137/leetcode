@@ -1,3 +1,7 @@
+#XCode add
+.DS_Store
+build/
+
 # Prerequisites
 *.d
 
