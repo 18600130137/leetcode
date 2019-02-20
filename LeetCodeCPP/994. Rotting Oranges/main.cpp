@@ -67,7 +67,9 @@ vector<vector<int>>   getInputData(){
 
 
 int main(int argc, const char * argv[]) {
-    vector<vector<int>>  input1=getInputData();
+    vector<int>  input1={1,2,3,4};
+    int num1=4;
+    int num2=3;
     Solution so=Solution();
     int ret=so.orangesRotting(input1);
     cout<<"Ret result is:"<<ret<<endl;
