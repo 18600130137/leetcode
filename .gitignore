@@ -1,6 +1,7 @@
 #XCode add
-.DS_Store
+LeetCodeCPP.xcodeproj/
 build/
+.DS_Store
 
 # Prerequisites
 *.d
