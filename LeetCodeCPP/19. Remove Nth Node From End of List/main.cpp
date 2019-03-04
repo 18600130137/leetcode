@@ -17,6 +17,25 @@ struct ListNode {
      ListNode(int x) : val(x), next(NULL) {}
 };
 
+ListNode *  buildListNode(vector<int> v){
+    ListNode * head=new ListNode(-1);
+    ListNode * cur=head;
+    for(int i:v){
+        cur->next=new ListNode(i);
+        cur=cur->next;
+    }
+    return head->next;
+}
+
+void printListNode(ListNode * n){
+    while (n) {
+        cout<<n->val<<" ";
+        n=n->next;
+    }
+    cout<<endl;
+}
+
+
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
@@ -41,24 +60,6 @@ public:
         
     }
 };
-
-ListNode *  buildListNode(vector<int> v){
-    ListNode * head=new ListNode(-1);
-    ListNode * cur=head;
-    for(int i:v){
-        cur->next=new ListNode(i);
-        cur=cur->next;
-    }
-    return head->next;
-}
-
-void printListNode(ListNode * n){
-    while (n) {
-        cout<<n->val<<" ";
-        n=n->next;
-    }
-    cout<<endl;
-}
 
 
 
