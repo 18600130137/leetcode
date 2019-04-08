@@ -1,8 +1,8 @@
 //
 //  main.cpp
-//  998. Maximum Binary Tree II
+//  95. Unique Binary Search Trees II
 //
-//  Created by admin on 2019/2/25.
+//  Created by admin on 2019/4/8.
 //  Copyright © 2019年 liu. All rights reserved.
 //
 
@@ -11,15 +11,13 @@
 #include <queue>
 using namespace std;
 
-/**
- * Definition for a binary tree node
- */
- struct TreeNode {
-     int val;
-     TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
 
 TreeNode*  buildTree(vector<int> &in){
     TreeNode * root=new TreeNode(in[0]);
@@ -47,9 +45,6 @@ TreeNode*  buildTree(vector<int> &in){
     }
     return root;
 }
-
-
-
 
 void traversalTree(TreeNode*  root,int level=0){
     queue<TreeNode*> helper;
@@ -80,27 +75,47 @@ void traversalTree(TreeNode*  root,int level=0){
         
     }
 }
-
 class Solution {
-public:
-    TreeNode* insertIntoMaxTree(TreeNode* root, int val) {
-        if(root && root->val>val){
-            root->right=insertIntoMaxTree(root->right,val);
-            return root;
+private:
+    vector<TreeNode*>  helper(int left,int right){
+        vector<TreeNode*> ret;
+        if(left>right){
+            ret.push_back(NULL);
+            return ret;
         }
-        TreeNode *newNode=new TreeNode(val);
-        newNode->left=root;
-        return newNode;
+        for(int i=left;i<=right;i++){
+            vector<TreeNode*> leftNodes=helper(left,i-1);
+            vector<TreeNode*> rightNodes=helper(i+1,right);
+            for(auto l:leftNodes){
+                for(auto r:rightNodes){
+                    TreeNode* root=new TreeNode(i);
+                    root->left=l;
+                    root->right=r;
+                    ret.push_back(root);
+                }
+            }
+        }
         
+        return ret;
+    }
+    
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        if(n<=0){
+            return {};
+        }
+        
+        return helper(1,n);
     }
 };
 
+
 int main(int argc, const char * argv[]) {
-    vector<int> inputV={5,2,3,NULL,1};
-    TreeNode* input1=buildTree(inputV);
-    int input2=4;
     Solution so=Solution();
-    TreeNode* ret=so.insertIntoMaxTree(input1, input2);
-    traversalTree(ret);
+    vector<TreeNode*> ret=so.generateTrees(3);
+    for(auto t:ret){
+        traversalTree(t);
+        cout<<endl;
+    }
     return 0;
 }

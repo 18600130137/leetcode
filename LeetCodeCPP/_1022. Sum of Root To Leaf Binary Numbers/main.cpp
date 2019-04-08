@@ -1,25 +1,24 @@
 //
 //  main.cpp
-//  998. Maximum Binary Tree II
+//  _1022. Sum of Root To Leaf Binary Numbers
 //
-//  Created by admin on 2019/2/25.
+//  Created by admin on 2019/4/8.
 //  Copyright © 2019年 liu. All rights reserved.
 //
 
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <math.h>
 using namespace std;
 
-/**
- * Definition for a binary tree node
- */
- struct TreeNode {
-     int val;
-     TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-  };
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
 
 TreeNode*  buildTree(vector<int> &in){
     TreeNode * root=new TreeNode(in[0]);
@@ -29,27 +28,28 @@ TreeNode*  buildTree(vector<int> &in){
     while (!helper.empty() && start<m) {
         auto  f=helper.front();
         helper.pop();
-        if(in[start]){
-            f->left=new TreeNode(in[start]);
-            helper.push(f->left);
-        }
+//        if(in[start]){
+//            f->left=new TreeNode(in[start]);
+//            helper.push(f->left);
+//        }
+        f->left=new TreeNode(in[start]);
+        helper.push(f->left);
         
         start++;
         if(start>=m){
             break;
         }
-        if(in[start]){
-            f->right=new TreeNode(in[start]);
-            helper.push(f->right);
-        }
+//        if(in[start]){
+//            f->right=new TreeNode(in[start]);
+//            helper.push(f->right);
+//        }
+        f->right=new TreeNode(in[start]);
+        helper.push(f->right);
         
         start++;
     }
     return root;
 }
-
-
-
 
 void traversalTree(TreeNode*  root,int level=0){
     queue<TreeNode*> helper;
@@ -80,27 +80,29 @@ void traversalTree(TreeNode*  root,int level=0){
         
     }
 }
-
 class Solution {
+private:
+    int mode=pow(2,31)-1;
+    
 public:
-    TreeNode* insertIntoMaxTree(TreeNode* root, int val) {
-        if(root && root->val>val){
-            root->right=insertIntoMaxTree(root->right,val);
-            return root;
+    int sumRootToLeaf(TreeNode* root,int val=0) {
+        int cur=(2*val+root->val)%mode;
+        if(!root->left && !root->right){
+            return cur;
         }
-        TreeNode *newNode=new TreeNode(val);
-        newNode->left=root;
-        return newNode;
+
+        return (root->left?sumRootToLeaf(root->left,cur):0)+(root->right?sumRootToLeaf(root->right,cur):0);
+        
         
     }
 };
 
 int main(int argc, const char * argv[]) {
-    vector<int> inputV={5,2,3,NULL,1};
-    TreeNode* input1=buildTree(inputV);
-    int input2=4;
+    vector<int>  input={1,0,1,0,1,0,1};
+    TreeNode* root=buildTree(input);
+    traversalTree(root);
     Solution so=Solution();
-    TreeNode* ret=so.insertIntoMaxTree(input1, input2);
-    traversalTree(ret);
+    int ret=so.sumRootToLeaf(root);
+    cout<<"The ret is:"<<ret<<endl;
     return 0;
 }
