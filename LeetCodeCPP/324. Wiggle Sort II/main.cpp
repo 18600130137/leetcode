@@ -28,7 +28,7 @@ public:
 #define A(i) nums[(1+2*(i)) % (m|1)]
         int left=0,right=m-1,i=0;
         while(left<=right){
-            
+            cout<<"left==="<<left<<" "<<i<<" "<<right<<endl;
             if(A(left)>mid_num){
                 swap(A(left++),A(i++));
             }else if(A(left)<mid_num){
