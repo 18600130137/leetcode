@@ -28,7 +28,6 @@ private:
 public:
     bool isValidSerialization1(string preorder) {
         int diff=1;
-        int i=0;
         vector<string> sp=split(preorder);
         for(auto  s:sp){
             if(--diff<0){
