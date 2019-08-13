@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <set>
 using namespace std;
-
+//刀枪刺  优先级 全部车票>字典序
 class Solution {
 private:
     unordered_map<string, multiset<string>> targets;
