@@ -15,7 +15,7 @@ class Solution {
     
     
 public:
-    int maxEnvelopes(vector<vector<int>>& envelopes) {
+    int maxEnvelopes1(vector<vector<int>>& envelopes) {
         int m=envelopes.size();
         if(m<2){
             return m;
@@ -44,6 +44,30 @@ public:
         
         
         return res;
+    }
+    
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int m=envelopes.size();
+        if(m<2){
+            return m;
+        }
+        
+        sort(envelopes.begin(),envelopes.end(),[](vector<int> &e1,vector<int> &e2){
+            if(e1[0]==e2[0]){
+                return e1[1]>e2[1];
+            }
+            return e1[0]<e2[0];
+        });
+        vector<int>  dp;
+        for(int i=0;i<m;i++){
+            auto iter=lower_bound(dp.begin(),dp.end(),envelopes[i][1]);
+            if(iter==dp.end()){
+                dp.push_back(envelopes[i][1]);
+            }else{
+                *iter=envelopes[i][1];   //把有机会的候选元素放在前边，但不改变长度
+            }
+        }
+        return dp.size();
     }
     
 };
